@@ -1,91 +1,144 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Modulo Prenotazione - Next Stop</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
-    .form-container { max-width: 600px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
-    img.logo { max-width: 200px; display: block; margin: 0 auto 20px; }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
-    #totale { font-size: 18px; font-weight: bold; margin-top: 20px; }
-    button { margin-top: 20px; padding: 12px; background: #007b00; color: #fff; border: none; border-radius: 5px; font-size: 16px; width: 100%; cursor: pointer; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    img.logo {
+      width: 200px;
+      display: block;
+      margin: 0 auto 20px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #f1c40f;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #prezzo {
+      font-weight: bold;
+      color: #e74c3c;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <img src="NEXT_STOP.jpg" alt="Next Stop Logo" class="logo"/>
-    <form id="bookingForm">
-      <!-- campi compilabili -->
-      <label>Nome e Cognome</label><input type="text" name="nome" required/>
-      <label>Numero di Telefono</label><input type="tel" name="telefono" required/>
-      <label>Email</label><input type="email" name="email" required/>
-      <label>Numero di Passeggeri</label><input type="number" name="passeggeri" required min="1"/>
-      <label>Data Arrivo</label><input type="date" id="dataArrivo" name="arrivo" required/>
-      <label>Ora Arrivo</label><input type="time" name="oraArrivo" required/>
-      <label>Data Ritorno</label><input type="date" id="dataRitorno" name="ritorno" required/>
-      <label>Ora Ritorno</label><input type="time" name="oraRitorno" required/>
+  <div class="container">
+    <img src="NEXT STOP.jpg" alt="Logo Next Stop" class="logo" />
+    <h2>Prenotazione Parcheggio</h2>
+    <form id="prenotazione">
+      <input type="text" name="Nome e Cognome" placeholder="Nome e Cognome" required />
+      <input type="tel" name="Telefono" placeholder="Numero di Telefono" required />
+      <input type="email" name="Email" placeholder="Email" required />
+      
+      <label>Data Arrivo</label>
+      <input type="date" name="Data Arrivo" id="arrivo" required />
+      <input type="time" name="Ora Arrivo" required />
+      
+      <label>Data Ritorno</label>
+      <input type="date" name="Data Ritorno" id="ritorno" required />
+      <input type="time" name="Ora Ritorno" required />
+      
       <label>Servizio Richiesto</label>
-      <select id="servizio" name="servizio" required>
-        <option value="">Seleziona</option>
-        <option value="navetta">Navetta</option>
-        <option value="car valet">Car Valet</option>
-        <option value="solo parcheggio">Solo Parcheggio</option>
+      <select name="Servizio" id="servizio" required>
+        <option value="">-- Seleziona --</option>
+        <option value="Navetta">Navetta</option>
+        <option value="Solo Parcheggio">Solo Parcheggio</option>
+        <option value="Car Valet">Car Valet</option>
       </select>
-      <label>Lavaggio Auto</label>
-      <select name="lavaggio" required>
-        <option value="no">No</option>
-        <option value="si">Sì</option>
+      
+      <input type="text" name="Modello Auto" placeholder="Modello Auto" required />
+      <input type="text" name="Targa" placeholder="Targa" required />
+      <input type="text" name="Colore" placeholder="Colore Auto" required />
+      
+      <input type="text" name="Volo" placeholder="Destinazione e Numero Volo" required />
+      <input type="number" name="Passeggeri" placeholder="Numero Passeggeri" required />
+      
+      <label>Lavaggio Auto?</label>
+      <select name="Lavaggio" required>
+        <option value="">-- Seleziona --</option>
+        <option value="Si">Si</option>
+        <option value="No">No</option>
       </select>
-      <label>Modello Auto</label><input type="text" name="modello" required/>
-      <label>Targa</label><input type="text" name="targa" required/>
-      <label>Colore Auto</label><input type="text" name="colore" required/>
-      <label>Destinazione del Volo</label><input type="text" name="destinazione" required/>
-      <label>Numero del Volo</label><input type="text" name="numeroVolo" required/>
-      <div id="totale">Prezzo totale: €0.00</div>
+
+      <div id="prezzo">Totale: €0</div>
+
+      <!-- Email destinatario -->
+      <input type="hidden" name="_next" value="https://thankyou.page" />
+      <input type="hidden" name="_subject" value="Nuova prenotazione ricevuta!" />
+      <input type="hidden" name="_autoresponse" value="Grazie per la prenotazione! Ti contatteremo al più presto." />
+      <input type="hidden" name="_captcha" value="false" />
+      
       <button type="submit">Invia Prenotazione</button>
     </form>
   </div>
 
   <script>
-    const arrivoEl = document.getElementById('dataArrivo');
-    const ritornoEl = document.getElementById('dataRitorno');
-    const servizioEl = document.getElementById('servizio');
-    const totaleEl = document.getElementById('totale');
-    const form = document.getElementById('bookingForm');
+    const form = document.getElementById('prenotazione');
+    const arrivo = document.getElementById('arrivo');
+    const ritorno = document.getElementById('ritorno');
+    const servizio = document.getElementById('servizio');
+    const prezzoDiv = document.getElementById('prezzo');
 
-    function calcola() {
-      const a = new Date(arrivoEl.value);
-      const r = new Date(ritornoEl.value);
-      const serv = servizioEl.value;
-      if (!arrivoEl.value || !ritornoEl.value || !serv) return;
-      const giorni = Math.ceil((r - a) / (1000*60*60*24)) + 1;
-      let prezzo = serv === 'car valet'
-        ? giorni * 6
-        : giorni === 1
-          ? 7
-          : giorni * 3.75;
-      totaleEl.textContent = 'Prezzo totale: €' + prezzo.toFixed(2);
+    function calcolaPrezzo() {
+      const data1 = new Date(arrivo.value);
+      const data2 = new Date(ritorno.value);
+      const giorni = Math.max(1, Math.ceil((data2 - data1) / (1000 * 60 * 60 * 24)));
+
+      let prezzo = 0;
+      if (servizio.value === "Navetta" || servizio.value === "Solo Parcheggio") {
+        prezzo = giorni === 1 ? 7 : giorni * 3.75;
+      } else if (servizio.value === "Car Valet") {
+        prezzo = giorni * 6;
+      }
+
+      if (!isNaN(prezzo)) {
+        prezzoDiv.innerText = `Totale: €${prezzo.toFixed(2)}`;
+      }
     }
 
-    arrivoEl.addEventListener('change', calcola);
-    ritornoEl.addEventListener('change', calcola);
-    servizioEl.addEventListener('change', calcola);
+    arrivo.addEventListener("change", calcolaPrezzo);
+    ritorno.addEventListener("change", calcolaPrezzo);
+    servizio.addEventListener("change", calcolaPrezzo);
 
-    form.addEventListener('submit', e => {
+    form.addEventListener("submit", function(e) {
       e.preventDefault();
       const dati = new FormData(form);
-      const params = new URLSearchParams();
-      for (const p of dati) params.append(p[0], p[1]);
-      fetch('https://formsubmit.co/nextstop197@gmail.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params.toString()
-      })
-      .then(res => res.ok ? alert('Prenotazione inviata!') : alert('Errore invio'))
-      .then(() => form.reset() & (totaleEl.textContent = 'Prezzo totale: €0.00'));
+      fetch("https://formsubmit.co/nextstop197@gmail.com", {
+        method: "POST",
+        body: dati
+      }).then(() => {
+        alert("Prenotazione inviata con successo!");
+        form.reset();
+        prezzoDiv.innerText = "Totale: €0";
+      }).catch(err => alert("Errore nell'invio. Riprova."));
     });
   </script>
 </body>
