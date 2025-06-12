@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modulo Prenotazione - Next Stop Parking</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; color: #333; }
+    .logo { width: 100%; max-width: 300px; display: block; margin: 0 auto 20px; }
+    form { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
+    #prezzo { margin-top: 20px; font-size: 18px; font-weight: bold; color: #007b00; }
+    button { margin-top: 20px; padding: 12px; background: #007b00; color: #fff; border: none; border-radius: 5px; font-size: 16px; width: 100%; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <img src="NEXT_STOP.jpg" alt="Next Stop Logo" class="logo" />
+  <form action="https://formsubmit.co/nextstop197@gmail.com" method="POST" oninput="calcolaPrezzo()">
+    <!-- campi del modulo -->
+    <label>Nome e Cognome</label><input type="text" name="nome" required>
+    <label>Numero di Telefono</label><input type="tel" name="telefono" required>
+    <label>Data Arrivo</label><input type="date" name="data_arrivo" id="dataArrivo" required>
+    <label>Ora Arrivo</label><input type="time" name="ora_arrivo" required>
+    <label>Data Ritorno</label><input type="date" name="data_ritorno" id="dataRitorno" required>
+    <label>Ora Ritorno</label><input type="time" name="ora_ritorno" required>
+    <label>Servizio Richiesto</label>
+    <select name="servizio" id="servizio" required>
+      <option value="Navetta">Navetta</option>
+      <option value="Car Valet">Car Valet</option>
+      <option value="Solo Parcheggio">Solo Parcheggio</option>
+    </select>
+    <label>Modello Auto</label><input type="text" name="modello_auto" required>
+    <label>Targa</label><input type="text" name="targa" required>
+    <label>Colore</label><input type="text" name="colore" required>
+    <label>Destinazione del Volo</label><input type="text" name="destinazione_volo" required>
+    <label>Numero del Volo</label><input type="text" name="numero_volo" required>
+    <div id="prezzo">Prezzo totale: €0.00</div>
+    <input type="hidden" name="_next" value="https://grazie-nextstop.netlify.app">
+    <input type="hidden" name="_captcha" value="false">
+    <button type="submit">Invia Prenotazione</button>
+  </form>
+  <script>
+    function calcolaPrezzo() {
+      const arrivo = document.getElementById("dataArrivo").value;
+      const ritorno = document.getElementById("dataRitorno").value;
+      const servizio = document.getElementById("servizio").value;
+      const prezzoEl = document.getElementById("prezzo");
+      if (!arrivo || !ritorno) return;
+      const inizio = new Date(arrivo);
+      const fine = new Date(ritorno);
+      const diff = Math.ceil((fine - inizio) / (1000 * 60 * 60 * 24)) + 1;
+      let prezzo = 0;
+      if (servizio === "Car Valet") {
+        prezzo = diff * 6;
+      } else if (diff === 1) {
+        prezzo = 7;
+      } else {
+        prezzo = diff * 3.75;
+      }
+      prezzoEl.textContent = `Prezzo totale: €${prezzo.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
